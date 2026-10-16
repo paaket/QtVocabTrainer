@@ -1,0 +1,11 @@
+# Служебная папка Visual Studio
+.vs/
+# Папки сборки и компиляции
+Debug/
+Release/
+x64/
+x86/
+out/
+build/
+*.user
+*.suo
