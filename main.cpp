@@ -1,10 +1,11 @@
-#include "QtVocabTrainer.h"
-#include <QtWidgets/QApplication>
+#include "MainWindow.h"
+#include <QApplication>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    QtVocabTrainer w;
-    w.show();
-    return a.exec();
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    MainWindow window;
+    window.show();
+
+    return app.exec();
 }
