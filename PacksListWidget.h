@@ -1,5 +1,6 @@
 #pragma once
 #include "PacksListModel.h"
+#include "PackItemDelegate.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>

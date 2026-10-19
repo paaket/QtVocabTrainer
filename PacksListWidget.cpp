@@ -3,7 +3,9 @@
 PacksListWidget::PacksListWidget(QWidget* parent) : QWidget(parent) {
 	PacksListModel* listModel = new PacksListModel(this);
 	QListView* listView = new QListView(this);
+	PackItemDelegate* delegate = new PackItemDelegate(listView);
 	listView->setModel(listModel);
+	listView->setItemDelegate(delegate);
 	
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
