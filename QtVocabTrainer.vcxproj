@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddWordDialog.cpp" />
     <ClCompile Include="HomeWidget.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NavigationWidget.cpp" />
@@ -96,12 +97,13 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="AddWordDialog.h" />
     <ClInclude Include="HomeWidget.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="PackItemDelegate.h" />
+    <QtMoc Include="PackItemDelegate.h" />
     <ClInclude Include="Word.h" />
     <ClInclude Include="WordPack.h" />
-    <ClInclude Include="WordsListModel.h" />
+    <QtMoc Include="WordsListModel.h" />
     <ClInclude Include="WordsWidget.h" />
     <QtMoc Include="NavigationWidget.h" />
     <ClInclude Include="PacksListModel.h" />

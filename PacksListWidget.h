@@ -1,6 +1,8 @@
 #pragma once
 #include "PacksListModel.h"
 #include "PackItemDelegate.h"
+#include "AddWordDialog.h"
+#include "WordsListModel.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>
@@ -11,4 +13,5 @@ public:
 	PacksListWidget(QWidget* parent = nullptr);
 signals:
 	void packSelected(int packId);
+	void newWordReceived(int packId, const QString& english);
 };
