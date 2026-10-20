@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	//connect(navigation, &NavigationWidget::settingsRequested, [pages, ]() {pages->setCurrentWidget(); });
 
 	connect(packs, &PacksListWidget::packSelected, words, &WordsWidget::setPackId);
+	connect(packs, &PacksListWidget::newWordReceived, words, &WordsWidget::receiveNewWord);
 
 	resize(800, 400);
 }

@@ -58,6 +58,9 @@
     <ClCompile Include="PackItemDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AddWordDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
@@ -75,13 +78,7 @@
     <ClInclude Include="Word.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WordsListModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WordsWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PackItemDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,6 +87,15 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="PacksListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PackItemDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AddWordDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WordsListModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

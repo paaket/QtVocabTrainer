@@ -31,3 +31,16 @@ void WordsListModel::setPackId(int packId) {
 
 	endResetModel();
 }
+
+void WordsListModel::insertWord(int packId, const QString& english) {
+	Word word{ -1, packId, english, "-" };
+	if (packId = currPackId) {
+		beginInsertRows(QModelIndex(), visibleWords.size(), visibleWords.size());
+		allWords.push_back(word);
+		visibleWords.push_back(word);
+		endInsertRows();
+	}
+	else {
+		allWords.push_back(word);
+	}
+}

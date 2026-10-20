@@ -12,3 +12,7 @@ WordsWidget::WordsWidget(QWidget* parent) : QWidget(parent) {
 void WordsWidget::setPackId(int packId) {
 	wordModel->setPackId(packId);
 }
+
+void WordsWidget::receiveNewWord(int packId, const QString& english) {
+	wordModel->insertWord(packId, english);
+}

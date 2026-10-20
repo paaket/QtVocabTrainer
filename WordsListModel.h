@@ -4,6 +4,7 @@
 #include <QVector>
 
 class WordsListModel : public QAbstractListModel {
+	Q_OBJECT
 public:
 	enum Roles {
 		IdRole = Qt::UserRole,
@@ -30,4 +31,6 @@ private:
 	};
 	QVector<Word> visibleWords;
 	int currPackId = -1;
+public slots:
+	void insertWord(int packId, const QString& english);
 };

@@ -11,4 +11,5 @@ private:
 	WordsListModel* wordModel;
 public slots:
 	void setPackId(int packId);
+	void receiveNewWord(int packId, const QString& english);
 };
