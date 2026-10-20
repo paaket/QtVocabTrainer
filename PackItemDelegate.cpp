@@ -21,6 +21,21 @@ void PackItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     }
 }
 
-//bool PackItemDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) {
-//
-//}
+bool PackItemDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) {
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        if (mouseEvent->button() == Qt::LeftButton) {
+            const QRect buttonRect(
+                option.rect.right() - 30,
+                option.rect.center().y() - 10,
+                20,
+                20
+            );
+            if (buttonRect.contains(mouseEvent->position().toPoint())) {
+                emit addWordRequested(index.data(PacksListModel::Roles::IdRole).toInt());
+                return true;
+            }
+        }
+    }
+    return false;
+}
