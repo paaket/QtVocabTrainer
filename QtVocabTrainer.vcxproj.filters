@@ -61,15 +61,15 @@
     <ClCompile Include="AddWordDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DatabaseManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PacksListModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HomeWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WordPack.h">
@@ -79,6 +79,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WordsWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
