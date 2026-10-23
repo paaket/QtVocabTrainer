@@ -3,6 +3,7 @@
 #include "PacksListWidget.h"
 #include "HomeWidget.h"
 #include "WordsWidget.h"
+#include "DatabaseManager.h"
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QListView>
@@ -10,5 +11,7 @@
 
 class MainWindow : public QMainWindow {
 public:
-	MainWindow(QWidget* parent = nullptr);
+	MainWindow(DatabaseManager& db, QWidget* parent = nullptr);
+private:
+	DatabaseManager& db;
 };

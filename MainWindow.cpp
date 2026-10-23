@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWindow(parent) {
 	NavigationWidget* navigation = new NavigationWidget(this);
 	PacksListWidget* packs = new PacksListWidget(this);
 	HomeWidget* home = new HomeWidget(this);

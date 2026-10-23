@@ -86,6 +86,7 @@
     <ClCompile Include="AddWordDialog.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="HomeWidget.cpp" />
+    <ClCompile Include="LoginWindow.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NavigationWidget.cpp" />
     <ClCompile Include="PackItemDelegate.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="HomeWidget.h" />
+    <ClInclude Include="LoginWindow.h" />
     <ClInclude Include="MainWindow.h" />
     <QtMoc Include="PackItemDelegate.h" />
     <ClInclude Include="Result.h" />
