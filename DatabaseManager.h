@@ -10,6 +10,10 @@ class DatabaseManager {
 public:
 	DatabaseManager();
 	Result connectDb();
+	Result createUsersTable();
+	Result createPacksTable();
+	Result createWordsTable();
+	Result insertTestData();
 	Result addWord(int packId, const QString& english, const QString& translation);
 private:
 	QSqlDatabase db;
