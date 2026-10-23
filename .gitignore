@@ -1,3 +1,5 @@
+Config.h
+Config.h.example
 # Служебная папка Visual Studio
 .vs/
 # Папки сборки и компиляции
@@ -9,3 +11,4 @@ out/
 build/
 *.user
 *.suo
+/Config.h.example
