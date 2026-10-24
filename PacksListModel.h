@@ -15,10 +15,7 @@ public:
 	PacksListModel(QObject* parent = nullptr);
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+	void setPacks(QVector<WordPack> packs);
 private:
-	QVector<WordPack> packs = {
-		{ 0, "first", 2 },
-		{ 1, "second", 5 },
-		{ 2, "tihrd", 3 }
-	};
+	QVector<WordPack> packs;
 };

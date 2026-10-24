@@ -44,3 +44,7 @@ void WordsListModel::insertWord(int packId, const QString& english) {
 		allWords.push_back(word);
 	}
 }
+
+void WordsListModel::setWords(QVector<Word> words) {
+	this->allWords = words;
+}
