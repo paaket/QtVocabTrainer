@@ -1,6 +1,9 @@
 #pragma once
 #include "Config.h"
 #include "Result.h"
+#include "Word.h"
+#include "WordPack.h"
+#include <QVector>
 #include <QSqlDatabase>
 #include <QSqlQUery>
 #include <QSqlError>
@@ -14,6 +17,8 @@ public:
 	Result createPacksTable();
 	Result createWordsTable();
 	Result insertTestData();
+	QVector<WordPack> loadUserPacks(int userId);
+	QVector<Word> loadUserWords(int userId);
 	Result addWord(int packId, const QString& english, const QString& translation);
 private:
 	QSqlDatabase db;

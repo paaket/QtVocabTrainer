@@ -39,11 +39,11 @@ Result DatabaseManager::createWordsTable() {
 Result DatabaseManager::insertTestData() {
 	QSqlQuery query;
 
-	/*query.prepare("INSERT INTO users(username) VALUES (:username);");
+	query.prepare("INSERT INTO users(username) VALUES (:username);");
 	query.bindValue(":username", "test");
 	if (!query.exec())
 		return Result{ 0, query.lastError().text() };
-	query.clear();*/
+	query.clear();
 
 	query.prepare("INSERT INTO packs(user_id, title) VALUES (:user_id, :title);");
 	query.bindValue(":user_id", 1);
@@ -63,6 +63,38 @@ Result DatabaseManager::insertTestData() {
 	query.clear();
 
 	return Result{ 1, "" };
+}
+
+QVector<WordPack> DatabaseManager::loadUserPacks(int userId) {
+	QVector<WordPack> arr;
+	QSqlQuery query;
+	query.prepare("SELECT id, title, created_at FROM packs WHERE user_id = :user_id");
+	query.bindValue(":user_id", userId);
+	if (!query.exec()) return arr;
+	while (query.next()) 
+		arr.push_back({ 
+			query.value("id").toInt(),
+			query.value("title").toString(),
+			query.value("created_at").toDateTime().toLocalTime()
+		});
+	return arr;
+}
+
+QVector<Word> DatabaseManager::loadUserWords(int userId) {
+	QVector<Word> arr;
+	QSqlQuery query;
+	query.prepare("SELECT words.id, words.pack_id, words.english, words.translation, words.created_at FROM packs INNER JOIN words ON words.pack_id = packs.id WHERE packs.user_id = :user_id");
+	query.bindValue(":user_id", userId);
+	if (!query.exec()) return arr;
+	while (query.next())
+		arr.push_back({
+			query.value("id").toInt(),
+			query.value("pack_id").toInt(),
+			query.value("english").toString(),
+			query.value("translation").toString(),
+			query.value("created_at").toDateTime().toLocalTime()
+		});
+	return arr;
 }
 
 Result DatabaseManager::addWord(int packId, const QString& english, const QString& translation) {
