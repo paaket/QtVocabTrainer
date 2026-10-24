@@ -1,8 +1,9 @@
 #pragma once
 #include <QString>
+#include <QDateTime>
 
 struct WordPack {
 	int id;
 	QString title;
-	int wordCount;
+	QDateTime created_at;
 };
