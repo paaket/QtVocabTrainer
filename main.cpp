@@ -13,7 +13,8 @@ int main(int argc, char *argv[]) {
         qDebug() << "db error: " << res.error;
         return 1;
     }
-    res = dbManager.createUsersTable();
+
+    /*res = dbManager.createUsersTable();
     if (!res.isSuccess) {
         qDebug() << "users table error: " << res.error;
         return 1;
@@ -27,13 +28,13 @@ int main(int argc, char *argv[]) {
     if (!res.isSuccess) {
         qDebug() << "wirds table error: " << res.error;
         return 1;
-    }
+    }*/
 
-    res = dbManager.insertTestData();
+    /*res = dbManager.insertTestData();
     if (!res.isSuccess) {
         qDebug() << "test data insert error: " << res.error;
         return 1;
-    }
+    }*/
 
     /*QSettings settings("paket", "QtVocabTrainer");
     if (!settings.value("user/remember_me").toBool()) {
