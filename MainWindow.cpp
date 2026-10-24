@@ -2,9 +2,9 @@
 
 MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWindow(parent) {
 	NavigationWidget* navigation = new NavigationWidget(this);
-	PacksListWidget* packs = new PacksListWidget(this);
+	PacksListWidget* packs = new PacksListWidget(db, this);
 	HomeWidget* home = new HomeWidget(this);
-	WordsWidget* words = new WordsWidget(this);
+	WordsWidget* words = new WordsWidget(db, this);
 
 	QStackedWidget* pages = new QStackedWidget(this);
 	pages->addWidget(home);

@@ -1,6 +1,6 @@
 #include "PacksListWidget.h"
 
-PacksListWidget::PacksListWidget(QWidget* parent) : QWidget(parent) {
+PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(parent), dbManager(dbManager) {
 	PacksListModel* listModel = new PacksListModel(this);
 	QListView* listView = new QListView(this);
 	PackItemDelegate* delegate = new PackItemDelegate(listView);
@@ -9,6 +9,8 @@ PacksListWidget::PacksListWidget(QWidget* parent) : QWidget(parent) {
 	
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
+
+	listModel->setPacks(dbManager.loadUserPacks(1)); //user_id from qsettings
 
 	connect(listView->selectionModel(), &QItemSelectionModel::currentChanged, this, [this](const QModelIndex& current) {
 			if (!current.isValid()) return;
