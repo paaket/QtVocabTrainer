@@ -1,8 +1,9 @@
 #include "MainWindow.h"
 #include "DatabaseManager.h"
-//#include "LoginWindow.h"
+#include "LoginWindow.h"
 #include <QApplication>
 #include <QSettings>
+#include <QDebug>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
@@ -41,8 +42,17 @@ int main(int argc, char *argv[]) {
         
     }*/
 
-    MainWindow window(dbManager);
-    window.show();
+    QSettings settings("paket", "QtVocabTrainer");
+    bool login = settings.value("auth/remember", false).toBool();
+    if (!login) {
+        LoginWindow loginWindow;
+        if (loginWindow.exec() == QDialog::Accepted) login = true;
+    }
+    if (login) {
+        MainWindow window(dbManager);
+        window.show();
+        return app.exec();
+    }
 
-    return app.exec();
+    return 0;
 }
