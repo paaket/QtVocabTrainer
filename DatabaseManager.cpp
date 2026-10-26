@@ -17,7 +17,7 @@ Result DatabaseManager::connectDb() {
 
 Result DatabaseManager::createUsersTable() {
     QSqlQuery query;
-    if (!query.exec("CREATE TABLE IF NOT EXISTS users (id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, username TEXT NOT NULL UNIQUE, created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP);"))
+    if (!query.exec("CREATE TABLE IF NOT EXISTS users (id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP);"))
         return Result{ 0, query.lastError().text() };
     return Result{ 1, "" };
 }
@@ -39,8 +39,9 @@ Result DatabaseManager::createWordsTable() {
 Result DatabaseManager::insertTestData() {
 	QSqlQuery query;
 
-	query.prepare("INSERT INTO users(username) VALUES (:username);");
+	query.prepare("INSERT INTO users(username, password) VALUES (:username, :password);");
 	query.bindValue(":username", "test");
+	query.bindValue(":password", "123456789");
 	if (!query.exec())
 		return Result{ 0, query.lastError().text() };
 	query.clear();
@@ -105,4 +106,44 @@ Result DatabaseManager::addWord(int packId, const QString& english, const QStrin
 	query.bindValue(":translation", translation);
 	if (!query.exec()) return Result{ 0, query.lastError().text() };
 	return Result{ 1, "" };
+}
+
+Result DatabaseManager::registerUser(const QString& username, const QString& password) {
+	db.transaction();
+
+	QSqlQuery checkQuery;
+	checkQuery.prepare("SELECT id FROM users WHERE username = :username LIMIT 1");
+	checkQuery.bindValue(":username", username);
+	if (!checkQuery.exec()) {
+		db.rollback();
+		return Result{ 0, checkQuery.lastError().text() };
+	}
+	if (checkQuery.next()) {
+		db.rollback();
+		return Result{ 0, "An account with this username already exists" };
+	}
+
+	QSqlQuery insertQuery;
+	insertQuery.prepare("INSERT INTO users(username, password) VALUES (:username, :password)");
+	insertQuery.bindValue(":username", username);
+	insertQuery.bindValue(":password", password);
+	if (!insertQuery.exec()) {
+		db.rollback();
+		return Result{ 0, checkQuery.lastError().text() };
+	}
+
+	db.commit();
+	return Result{ 1, "" };
+}
+
+Result DatabaseManager::loginUser(const QString& username, const QString& password) {
+	QSqlQuery query;
+	query.prepare("SELECT id FROM users WHERE username = :username AND password = :password LIMIT 1");
+	query.bindValue(":username", username);
+	query.bindValue(":password", password);
+	if (!query.exec())
+		return Result{ 0, query.lastError().text() };
+	if (!query.next())
+		return Result{ 0, "Account not found.\nThe information may have been entered incorrectly."};
+	return Result{ 1, query.value(0).toString() };
 }
