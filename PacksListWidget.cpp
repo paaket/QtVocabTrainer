@@ -10,7 +10,8 @@ PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : 
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
 
-	listModel->setPacks(dbManager.loadUserPacks(1)); //user_id from qsettings
+	QSettings settings("paket", "QtVocabTrainer");
+	listModel->setPacks(dbManager.loadUserPacks(settings.value("user/id").toInt()));
 
 	connect(listView->selectionModel(), &QItemSelectionModel::currentChanged, this, [this](const QModelIndex& current) {
 			if (!current.isValid()) return;

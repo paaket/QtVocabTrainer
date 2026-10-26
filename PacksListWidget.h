@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>
+#include <QSettings>
 
 class PacksListWidget : public QWidget {
 	Q_OBJECT
