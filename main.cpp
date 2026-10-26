@@ -29,9 +29,9 @@ int main(int argc, char *argv[]) {
     if (!res.isSuccess) {
         qDebug() << "wirds table error: " << res.error;
         return 1;
-    }*/
+    }
 
-    /*res = dbManager.insertTestData();
+    res = dbManager.insertTestData();
     if (!res.isSuccess) {
         qDebug() << "test data insert error: " << res.error;
         return 1;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     QSettings settings("paket", "QtVocabTrainer");
     bool login = settings.value("auth/remember", false).toBool();
     if (!login) {
-        LoginWindow loginWindow;
+        LoginWindow loginWindow(dbManager);
         if (loginWindow.exec() == QDialog::Accepted) login = true;
     }
     if (login) {
