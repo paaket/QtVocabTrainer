@@ -1,7 +1,9 @@
 #pragma once
 #include <QString>
+#include <QVariant>
 
 struct Result {
-	bool isSuccess = 0;
+	bool isSuccess = false;
 	QString error;
+	QVariant data;
 };
