@@ -62,11 +62,13 @@ LoginWindow::LoginWindow(DatabaseManager& dbManager, QWidget* parent) : QDialog(
 		}
 
 		QSettings settings("paket", "QtVocabTrainer");
+
 		if (rememberChk->isChecked()) settings.setValue("auth/remember", true);
-		else {
-			settings.setValue("auth/remember", false);
-			settings.setValue("user/id", res.error);
-		}
+		else settings.setValue("auth/remember", false);
+
+		settings.setValue("user/id", res.data.toMap()["id"]);
+		settings.setValue("user/username", res.data.toMap()["username"]);
+		settings.setValue("user/created_at", res.data.toMap()["created_at"]);
 
 		accept();
 	});
