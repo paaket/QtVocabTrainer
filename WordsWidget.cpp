@@ -8,7 +8,8 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
 
-	wordModel->setWords(dbManager.loadUserWords(1)); //user_id from qsettings
+	QSettings settings("paket", "QtVocabTrainer");
+	wordModel->setWords(dbManager.loadUserWords(settings.value("user/id").toInt()));
 }
 
 void WordsWidget::setPackId(int packId) {

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>
+#include <QSettings>
 
 class WordsWidget : public QWidget {
 public:
