@@ -92,7 +92,9 @@
     <ClCompile Include="PackItemDelegate.cpp" />
     <ClCompile Include="PacksListModel.cpp" />
     <ClCompile Include="PacksListWidget.cpp" />
+    <ClCompile Include="ProfileWidget.cpp" />
     <ClCompile Include="RegistrationWindow.cpp" />
+    <ClCompile Include="SettingsWidget.cpp" />
     <ClCompile Include="WordsListModel.cpp" />
     <ClCompile Include="WordsWidget.cpp" />
     <QtRcc Include="QtVocabTrainer.qrc" />
@@ -105,10 +107,12 @@
     <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="HomeWidget.h" />
     <ClInclude Include="LoginWindow.h" />
-    <ClInclude Include="MainWindow.h" />
+    <QtMoc Include="MainWindow.h" />
     <QtMoc Include="PackItemDelegate.h" />
+    <ClInclude Include="ProfileWidget.h" />
     <ClInclude Include="RegistrationWindow.h" />
     <ClInclude Include="Result.h" />
+    <QtMoc Include="SettingsWidget.h" />
     <ClInclude Include="Word.h" />
     <ClInclude Include="WordPack.h" />
     <QtMoc Include="WordsListModel.h" />

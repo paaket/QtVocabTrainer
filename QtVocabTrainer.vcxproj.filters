@@ -70,11 +70,14 @@
     <ClCompile Include="RegistrationWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProfileWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PacksListModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -105,6 +108,9 @@
     <ClInclude Include="RegistrationWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProfileWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="NavigationWidget.h">
@@ -120,6 +126,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="WordsListModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SettingsWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
