@@ -138,12 +138,16 @@ Result DatabaseManager::registerUser(const QString& username, const QString& pas
 
 Result DatabaseManager::loginUser(const QString& username, const QString& password) {
 	QSqlQuery query;
-	query.prepare("SELECT id FROM users WHERE username = :username AND password = :password LIMIT 1");
+	query.prepare("SELECT id, username, created_at FROM users WHERE username = :username AND password = :password LIMIT 1");
 	query.bindValue(":username", username);
 	query.bindValue(":password", password);
 	if (!query.exec())
 		return Result{ 0, query.lastError().text() };
 	if (!query.next())
 		return Result{ 0, "Account not found.\nThe information may have been entered incorrectly."};
-	return Result{ 1, query.value(0).toString() };
+	QVariantMap user;
+	user["id"] = query.value(0).toInt();
+	user["username"] = query.value(1).toDateTime();
+	user["created_at"] = query.value(2).toDateTime();
+	return Result{ 1, "", user };
 }

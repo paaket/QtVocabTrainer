@@ -8,6 +8,7 @@
 #include <QSqlQUery>
 #include <QSqlError>
 #include <QString>
+#include <QVariantMap>
 
 class DatabaseManager {
 public:
