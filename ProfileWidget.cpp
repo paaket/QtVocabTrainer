@@ -5,7 +5,7 @@ ProfileWidget::ProfileWidget(QWidget* parent) : QWidget(parent) {
 	QLabel* lbl = new QLabel(
 		"username: " + settings.value("user/username").toString() + '\n' +
 		"id: " + settings.value("user/id").toString() + '\n' +
-		"created_at: " + settings.value("user/created_at").toString(),
+		"created_at: " + settings.value("user/created_at").toDateTime().toString("dd.MM.yyyy HH:mm:ss"),
 		this
 	);
 

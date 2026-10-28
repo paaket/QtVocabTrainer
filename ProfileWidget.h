@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QFrame>
 #include <QVBoxLayout>
+#include <QDateTime>
 
 class ProfileWidget : public QWidget {
 public:
