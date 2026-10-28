@@ -147,7 +147,20 @@ Result DatabaseManager::loginUser(const QString& username, const QString& passwo
 		return Result{ 0, "Account not found.\nThe information may have been entered incorrectly."};
 	QVariantMap user;
 	user["id"] = query.value(0).toInt();
-	user["username"] = query.value(1).toDateTime();
+	user["username"] = query.value(1).toString();
 	user["created_at"] = query.value(2).toDateTime();
 	return Result{ 1, "", user };
+}
+
+Result DatabaseManager::addPack(int userId, const QString& title) {
+	QSqlQuery query;
+	query.prepare("INSERT INTO packs(user_id, title) VALUES (:user_id, :title) RETURNING id, created_at");
+	query.bindValue(":user_id", userId);
+	query.bindValue(":title", title);
+	if (!query.exec()) 
+		return Result{ 0, query.lastError().text() };
+	QVariantMap pack;
+	pack["id"] = query.value(0).toInt();
+	pack["created_at"] = query.value(1).toDateTime();
+	return Result{ 1, "", pack };
 }

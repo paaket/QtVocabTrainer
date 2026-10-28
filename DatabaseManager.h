@@ -23,6 +23,7 @@ public:
 	Result addWord(int packId, const QString& english, const QString& translation);
 	Result registerUser(const QString& username, const QString& password);
 	Result loginUser(const QString& username, const QString& password);
+	Result addPack(int userId, const QString& title);
 private:
 	QSqlDatabase db;
 	Config config;
