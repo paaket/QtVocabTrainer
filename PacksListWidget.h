@@ -4,16 +4,21 @@
 #include "AddWordDialog.h"
 #include "WordsListModel.h"
 #include "DatabaseManager.h"
+#include "AddPackDialog.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>
 #include <QSettings>
+#include <QSettings>
+#include <QMessageBox>
 
 class PacksListWidget : public QWidget {
 	Q_OBJECT
 public:
 	PacksListWidget(DatabaseManager& dbManager, QWidget* parent = nullptr);
+	void receiveNewPack(const QString& title);
 private:
+	PacksListModel* listModel;
 	DatabaseManager& dbManager;
 signals:
 	void packSelected(int packId);

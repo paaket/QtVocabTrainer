@@ -1,14 +1,17 @@
 #include "PacksListWidget.h"
 
 PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(parent), dbManager(dbManager) {
-	PacksListModel* listModel = new PacksListModel(this);
+	listModel = new PacksListModel(this);
 	QListView* listView = new QListView(this);
 	PackItemDelegate* delegate = new PackItemDelegate(listView);
 	listView->setModel(listModel);
 	listView->setItemDelegate(delegate);
+
+	QPushButton* addPackBtn = new QPushButton("Add pack", this);
 	
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
+	vbox->addWidget(addPackBtn);
 
 	QSettings settings("paket", "QtVocabTrainer");
 	listModel->setPacks(dbManager.loadUserPacks(settings.value("user/id").toInt()));
@@ -27,4 +30,16 @@ PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : 
 			dialog->exec();
 		}
 	);
+	connect(addPackBtn, &QPushButton::clicked, this, [dbManager, this]() {
+		AddPackDialog* dialog = new AddPackDialog(this);
+		connect(dialog, &AddPackDialog::packSubmitted, this, &PacksListWidget::receiveNewPack);
+		dialog->exec();
+	});
+}
+
+void PacksListWidget::receiveNewPack(const QString& title) {
+	QSettings settings("paket", "QtVocabTrainer");
+	auto res = dbManager.addPack(settings.value("user/id").toInt(), title);
+	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
+	listModel->insertPack(res.data.toMap()["id"].toInt(), title, res.data.toMap()["created_at"].toDateTime());
 }

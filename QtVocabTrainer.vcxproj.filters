@@ -76,6 +76,9 @@
     <ClCompile Include="SettingsWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AddPackDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacksListModel.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AddPackDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

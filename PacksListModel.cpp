@@ -25,3 +25,9 @@ void PacksListModel::setPacks(QVector<WordPack> packs) {
 	this->packs = packs;
 	endResetModel();
 }
+
+void PacksListModel::insertPack(int packId, const QString& title, const QDateTime& createdAt) {
+	beginInsertRows(QModelIndex(), packs.size(), packs.size());
+	this->packs.push_back({ packId, title, createdAt });
+	endInsertRows();
+}
