@@ -5,6 +5,7 @@
 #include "WordsListModel.h"
 #include "DatabaseManager.h"
 #include "AddPackDialog.h"
+#include "WordPack.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>

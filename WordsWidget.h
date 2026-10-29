@@ -1,10 +1,12 @@
 #pragma once
 #include "WordsListModel.h"
 #include "DatabaseManager.h"
+#include "Word.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>
 #include <QSettings>
+#include <QMessageBox>
 
 class WordsWidget : public QWidget {
 public:

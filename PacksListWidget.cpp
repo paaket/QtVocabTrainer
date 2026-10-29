@@ -14,7 +14,9 @@ PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : 
 	vbox->addWidget(addPackBtn);
 
 	QSettings settings("paket", "QtVocabTrainer");
-	listModel->setPacks(dbManager.loadUserPacks(settings.value("user/id").toInt()));
+	auto res = dbManager.loadUserPacks(settings.value("user/id").toInt());
+	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
+	else listModel->setPacks(res.data.value<QVector<WordPack>>());
 
 	connect(listView->selectionModel(), &QItemSelectionModel::currentChanged, this, [this](const QModelIndex& current) {
 			if (!current.isValid()) return;

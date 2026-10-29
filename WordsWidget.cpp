@@ -9,7 +9,9 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 	vbox->addWidget(listView);
 
 	QSettings settings("paket", "QtVocabTrainer");
-	wordModel->setWords(dbManager.loadUserWords(settings.value("user/id").toInt()));
+	auto res = dbManager.loadUserWords(settings.value("user/id").toInt());
+	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
+	else wordModel->setWords(res.data.value<QVector<Word>>());
 }
 
 void WordsWidget::setPackId(int packId) {
@@ -17,6 +19,7 @@ void WordsWidget::setPackId(int packId) {
 }
 
 void WordsWidget::receiveNewWord(int packId, const QString& english) {
-	dbManager.addWord(packId, english, "translation"); // translation
-	wordModel->insertWord(packId, english);
+	auto res = dbManager.addWord(packId, english, "translation"); // translation
+	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
+	else wordModel->insertWord(packId, english);
 }
