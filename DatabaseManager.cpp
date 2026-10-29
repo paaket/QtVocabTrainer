@@ -66,27 +66,28 @@ Result DatabaseManager::insertTestData() {
 	return Result{ 1, "" };
 }
 
-QVector<WordPack> DatabaseManager::loadUserPacks(int userId) {
+Result DatabaseManager::loadUserPacks(int userId) {
 	QVector<WordPack> arr;
 	QSqlQuery query;
 	query.prepare("SELECT id, title, created_at FROM packs WHERE user_id = :user_id");
 	query.bindValue(":user_id", userId);
-	if (!query.exec()) return arr;
+	if (!query.exec()) return { 0, query.lastError().text() };
 	while (query.next()) 
 		arr.push_back({ 
 			query.value("id").toInt(),
 			query.value("title").toString(),
 			query.value("created_at").toDateTime().toLocalTime()
 		});
-	return arr;
+	query.finish();
+	return { 1, "", QVariant::fromValue(arr) };
 }
 
-QVector<Word> DatabaseManager::loadUserWords(int userId) {
+Result DatabaseManager::loadUserWords(int userId) {
 	QVector<Word> arr;
 	QSqlQuery query;
 	query.prepare("SELECT words.id, words.pack_id, words.english, words.translation, words.created_at FROM packs INNER JOIN words ON words.pack_id = packs.id WHERE packs.user_id = :user_id");
 	query.bindValue(":user_id", userId);
-	if (!query.exec()) return arr;
+	if (!query.exec()) return { 0, query.lastError().text() };
 	while (query.next())
 		arr.push_back({
 			query.value("id").toInt(),
@@ -95,7 +96,8 @@ QVector<Word> DatabaseManager::loadUserWords(int userId) {
 			query.value("translation").toString(),
 			query.value("created_at").toDateTime().toLocalTime()
 		});
-	return arr;
+	
+	return { 1, "", QVariant::fromValue(arr) };
 }
 
 Result DatabaseManager::addWord(int packId, const QString& english, const QString& translation) {
@@ -159,6 +161,8 @@ Result DatabaseManager::addPack(int userId, const QString& title) {
 	query.bindValue(":title", title);
 	if (!query.exec()) 
 		return Result{ 0, query.lastError().text() };
+	if (!query.next())
+		return Result{ 0, "no data"};
 	QVariantMap pack;
 	pack["id"] = query.value(0).toInt();
 	pack["created_at"] = query.value(1).toDateTime();
