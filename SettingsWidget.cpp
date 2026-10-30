@@ -1,7 +1,8 @@
 #include "SettingsWidget.h"
 
 SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) {
-	QPushButton* logoutBtn = new QPushButton("Log out", this);
+	QPushButton* accountDelBtn = new QPushButton("Delete Account", this);
+	accountDelBtn->setStyleSheet("background-color: #e57373; color: white; border: none; padding: 6px;");
 
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 
@@ -11,9 +12,15 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) {
 
 	QVBoxLayout* pannelVbox = new QVBoxLayout(panel);
 	pannelVbox->addStretch();
-	pannelVbox->addWidget(logoutBtn);
+	pannelVbox->addWidget(accountDelBtn);
 
-	connect(logoutBtn, &QPushButton::clicked, this, &SettingsWidget::LogoutRequested);
+	connect(accountDelBtn, &QPushButton::clicked, this, [this]() {
+		DeleteAccountDialog dialog;
+		connect(&dialog, &DeleteAccountDialog::DeleteAccountRequested, this, [this]() {
+			emit DeleteAccountRequested();
+		});
+		dialog.exec();
+	});
 
 	vbox->addWidget(panel);
 }

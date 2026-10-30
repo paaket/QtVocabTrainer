@@ -1,4 +1,5 @@
 #pragma once
+#include "DeleteAccountDialog.h"
 #include <QWidget>
 #include <QFrame>
 #include <QVBoxLayout>
@@ -9,5 +10,5 @@ class SettingsWidget : public QWidget {
 public:
 	SettingsWidget(QWidget* parent = nullptr);
 signals:
-	void LogoutRequested();
+	void DeleteAccountRequested();
 };

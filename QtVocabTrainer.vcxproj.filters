@@ -79,6 +79,9 @@
     <ClCompile Include="AddPackDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DeleteAccountDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacksListModel.h">
@@ -111,9 +114,6 @@
     <ClInclude Include="RegistrationWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProfileWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="NavigationWidget.h">
@@ -138,6 +138,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="AddPackDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DeleteAccountDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ProfileWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
