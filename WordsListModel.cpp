@@ -12,6 +12,7 @@ QVariant WordsListModel::data(const QModelIndex& index, int role) const {
 	if (role == WordsListModel::PackIdRole) return word.packId;
 	if (role == WordsListModel::EnglishRole) return word.english;
 	if (role == WordsListModel::TranslationRole) return word.translation;
+	if (role == WordsListModel::CreatedAtRole) return word.created_at;
 
 	return {};
 }
@@ -32,9 +33,8 @@ void WordsListModel::setPackId(int packId) {
 	endResetModel();
 }
 
-void WordsListModel::insertWord(int packId, const QString& english) {
-	Word word{ -1, packId, english, "-" };
-	if (packId = currPackId) {
+void WordsListModel::insertWord(const Word& word) {
+	if (word.packId == currPackId) {
 		beginInsertRows(QModelIndex(), visibleWords.size(), visibleWords.size());
 		allWords.push_back(word);
 		visibleWords.push_back(word);

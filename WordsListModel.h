@@ -10,7 +10,8 @@ public:
 		IdRole = Qt::UserRole,
 		PackIdRole,
 		EnglishRole,
-		TranslationRole
+		TranslationRole,
+		CreatedAtRole
 	};
 public:
 	WordsListModel(QObject* parent = nullptr);
@@ -23,5 +24,5 @@ private:
 	QVector<Word> visibleWords;
 	int currPackId = -1;
 public slots:
-	void insertWord(int packId, const QString& english);
+	void insertWord(const Word& word);
 };
