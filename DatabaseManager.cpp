@@ -96,18 +96,23 @@ Result DatabaseManager::loadUserWords(int userId) {
 			query.value("translation").toString(),
 			query.value("created_at").toDateTime().toLocalTime()
 		});
-	
 	return { 1, "", QVariant::fromValue(arr) };
 }
 
 Result DatabaseManager::addWord(int packId, const QString& english, const QString& translation) {
 	QSqlQuery query;
-	query.prepare("INSERT INTO words(pack_id, english, translation) VALUES (:pack_id, :english, :translation);");
+	query.prepare("INSERT INTO words(pack_id, english, translation) VALUES (:pack_id, :english, :translation) RETURNING id, created_at");
 	query.bindValue(":pack_id", packId);
 	query.bindValue(":english", english);
 	query.bindValue(":translation", translation);
-	if (!query.exec()) return Result{ 0, query.lastError().text() };
-	return Result{ 1, "" };
+	if (!query.exec()) 
+		return Result{ 0, query.lastError().text() };
+	if (!query.next())
+		return Result{ 0, "no data" };
+	QVariantMap word;
+	word["id"] = query.value(0).toInt();
+	word["created_at"] = query.value(1).toDateTime();
+	return Result{ 1, "", word };
 }
 
 Result DatabaseManager::registerUser(const QString& username, const QString& password) {
@@ -167,4 +172,12 @@ Result DatabaseManager::addPack(int userId, const QString& title) {
 	pack["id"] = query.value(0).toInt();
 	pack["created_at"] = query.value(1).toDateTime();
 	return Result{ 1, "", pack };
+}
+
+Result DatabaseManager::deleteAccount(int userId) {
+	QSqlQuery query;
+	query.prepare("DELETE FROM users WHERE id = :id");
+	query.bindValue(":id", userId);
+	if (!query.exec()) return Result{ 0, query.lastError().text() };
+	return Result{ 1, "" };
 }
