@@ -34,8 +34,20 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 	connect(packs, &PacksListWidget::packSelected, words, &WordsWidget::setPackId);
 	connect(packs, &PacksListWidget::newWordReceived, words, &WordsWidget::receiveNewWord);
 
-	connect(settings, &SettingsWidget::LogoutRequested, this, [this]() {
+	connect(profile, &ProfileWidget::LogoutRequested, this, [this]() {
 		QSettings settings("paket", "QtVocabTrainer");
+		settings.setValue("auth/remember", false);
+		settings.remove("user/id");
+		settings.remove("user/username");
+		settings.remove("user/created_at");
+
+		this->close();
+	});
+	connect(settings, &SettingsWidget::DeleteAccountRequested, this, [this, &db]() {
+		QSettings settings("paket", "QtVocabTrainer");
+
+		db.deleteAccount(settings.value("user/id").toInt());
+
 		settings.setValue("auth/remember", false);
 		settings.remove("user/id");
 		settings.remove("user/username");
