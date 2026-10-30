@@ -20,6 +20,13 @@ void WordsWidget::setPackId(int packId) {
 
 void WordsWidget::receiveNewWord(int packId, const QString& english) {
 	auto res = dbManager.addWord(packId, english, "translation"); // translation
+	Word word = {
+		res.data.toMap()["id"].toInt(),
+		packId,
+		english,
+		"translation", // translation
+		res.data.toMap()["created_at"].toDateTime()
+	};
 	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
-	else wordModel->insertWord(packId, english);
+	else wordModel->insertWord(word);
 }
