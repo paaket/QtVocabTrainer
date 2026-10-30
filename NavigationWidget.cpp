@@ -16,10 +16,10 @@ NavigationWidget::NavigationWidget(QWidget* parent) : QWidget(parent) {
 	QVBoxLayout* btnVBox = new QVBoxLayout(this);
 	btnVBox->addWidget(homeBtn);
 	btnVBox->addWidget(packsBtn);
-	btnVBox->addWidget(profileBtn);
 	btnVBox->addWidget(statisticBtn);
-	btnVBox->addWidget(settingsBtn);
+	btnVBox->addWidget(profileBtn);
 	btnVBox->addStretch();
+	btnVBox->addWidget(settingsBtn);
 
 	connect(homeBtn, &QPushButton::clicked, this, &NavigationWidget::homeRequested);
 	connect(packsBtn, &QPushButton::clicked, this, &NavigationWidget::packsRequested);
