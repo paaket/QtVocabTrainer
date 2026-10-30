@@ -9,6 +9,8 @@ ProfileWidget::ProfileWidget(QWidget* parent) : QWidget(parent) {
 		this
 	);
 
+	QPushButton* logoutBtn = new QPushButton("Log out", this);
+
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 
 	QFrame* panel = new QFrame(this);
@@ -17,6 +19,10 @@ ProfileWidget::ProfileWidget(QWidget* parent) : QWidget(parent) {
 
 	QVBoxLayout* panelVbox = new QVBoxLayout(panel);
 	panelVbox->addWidget(lbl);
+	panelVbox->addStretch();
+	panelVbox->addWidget(logoutBtn);
+
+	connect(logoutBtn, &QPushButton::clicked, this, &ProfileWidget::LogoutRequested);
 
 	vbox->addWidget(panel);
 }
