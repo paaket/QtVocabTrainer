@@ -2,6 +2,7 @@
 #include "WordsListModel.h"
 #include "DatabaseManager.h"
 #include "Word.h"
+#include "WordItemDelegate.h"
 #include <QWidget>
 #include <QListView>
 #include <QVBoxLayout>

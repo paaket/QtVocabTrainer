@@ -3,7 +3,9 @@
 WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(parent), dbManager(dbManager) {
 	wordModel = new WordsListModel(this);
 	QListView* listView = new QListView(this);
+	WordItemDelegate* delegate = new WordItemDelegate(listView);
 	listView->setModel(wordModel);
+	listView->setItemDelegate(delegate);
 
 	QVBoxLayout* vbox = new QVBoxLayout(this);
 	vbox->addWidget(listView);
@@ -12,6 +14,15 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 	auto res = dbManager.loadUserWords(settings.value("user/id").toInt());
 	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
 	else wordModel->setWords(res.data.value<QVector<Word>>());
+
+	connect(delegate, &WordItemDelegate::delWordRequested, this, [&dbManager, this](int wordId) {
+		auto questionRes = QMessageBox::question(this, "Removing a word", "Are you sure you want to delete the selected word?\nThis action cannot be undone.");
+		if (questionRes == QMessageBox::Yes) {
+			auto dbRes = dbManager.deleteWord(wordId);
+			if (!dbRes.isSuccess) QMessageBox::critical(this, "Critical error", dbRes.error);
+			else wordModel->deleteWord(wordId);
+		}
+	});
 }
 
 void WordsWidget::setPackId(int packId) {
