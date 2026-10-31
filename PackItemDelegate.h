@@ -12,4 +12,5 @@ public:
 	bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) override;
 signals:
 	void addWordRequested(int packId);
+	void delPackRequested(int packId);
 };
