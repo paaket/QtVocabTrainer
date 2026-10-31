@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include <QLabel>
+#include <QGridLayout>
 
 class AddWordDialog : public QDialog {
 	Q_OBJECT

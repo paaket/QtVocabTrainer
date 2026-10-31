@@ -1,6 +1,8 @@
 #include "AddPackDialog.h"
 
 AddPackDialog::AddPackDialog(QWidget* parent) : QDialog(parent) {
+	setWindowTitle("Add a pack");
+
 	QLabel* titleLbl = new QLabel("Title:", this);
 
 	titleLine = new QLineEdit(this);
@@ -11,7 +13,7 @@ AddPackDialog::AddPackDialog(QWidget* parent) : QDialog(parent) {
 
 	QGridLayout* grid = new QGridLayout();
 	grid->addWidget(titleLbl, 0, 0);
-	grid->addWidget(titleLbl, 0, 1);
+	grid->addWidget(titleLine, 0, 1);
 
 	QHBoxLayout* hbox = new QHBoxLayout();
 	hbox->addWidget(addBtn);

@@ -97,6 +97,7 @@
     <ClCompile Include="ProfileWidget.cpp" />
     <ClCompile Include="RegistrationWindow.cpp" />
     <ClCompile Include="SettingsWidget.cpp" />
+    <ClCompile Include="WordItemDelegate.cpp" />
     <ClCompile Include="WordsListModel.cpp" />
     <ClCompile Include="WordsWidget.cpp" />
     <QtRcc Include="QtVocabTrainer.qrc" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Result.h" />
     <QtMoc Include="SettingsWidget.h" />
     <ClInclude Include="Word.h" />
+    <QtMoc Include="WordItemDelegate.h" />
     <ClInclude Include="WordPack.h" />
     <QtMoc Include="WordsListModel.h" />
     <ClInclude Include="WordsWidget.h" />

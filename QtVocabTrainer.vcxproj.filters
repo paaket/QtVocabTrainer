@@ -82,6 +82,9 @@
     <ClCompile Include="DeleteAccountDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WordItemDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacksListModel.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ProfileWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WordItemDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
