@@ -19,6 +19,7 @@ public:
 	int rowCount(const QModelIndex& parent) const override;
 	void setPackId(int packId);
 	void setWords(QVector<Word> words);
+	void deleteWord(int wordId);
 private:
 	QVector<Word> allWords;
 	QVector<Word> visibleWords;

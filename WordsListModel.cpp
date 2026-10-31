@@ -50,3 +50,18 @@ void WordsListModel::setWords(QVector<Word> words) {
 	this->allWords = words;
 	endResetModel();
 }
+
+void WordsListModel::deleteWord(int wordId) {
+	int wordVisInd = 0;
+	for (int i = 0; i < visibleWords.size(); i++)
+		if (visibleWords[i].id == wordId) wordVisInd = i;
+
+	beginRemoveRows(QModelIndex(), wordVisInd, wordVisInd);
+	visibleWords.erase(visibleWords.begin() + wordVisInd);
+	endRemoveRows();
+
+	int wordAllInd = 0;
+	for (int i = 0; i < allWords.size(); i++)
+		if (allWords[i].id == wordId) wordAllInd = i;
+	allWords.erase(allWords.begin() + wordAllInd);
+}
