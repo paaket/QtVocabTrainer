@@ -25,6 +25,8 @@ public:
 	Result loginUser(const QString& username, const QString& password);
 	Result addPack(int userId, const QString& title);
 	Result deleteAccount(int userId);
+	Result deletePack(int packId);
+	Result deleteWord(int wordId);
 private:
 	QSqlDatabase db;
 	Config config;

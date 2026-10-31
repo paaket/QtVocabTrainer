@@ -181,3 +181,19 @@ Result DatabaseManager::deleteAccount(int userId) {
 	if (!query.exec()) return Result{ 0, query.lastError().text() };
 	return Result{ 1, "" };
 }
+
+Result DatabaseManager::deletePack(int packId) {
+	QSqlQuery query;
+	query.prepare("DELETE FROM packs WHERE id = :id");
+	query.bindValue(":id", packId);
+	if (!query.exec()) return Result{ 0, query.lastError().text() };
+	return Result{ 1, "" };
+}
+
+Result DatabaseManager::deleteWord(int wordId) {
+	QSqlQuery query;
+	query.prepare("DELETE FROM words WHERE id = :id");
+	query.bindValue(":id", wordId);
+	if (!query.exec()) return Result{ 0, query.lastError().text() };
+	return Result{ 1, "" };
+}
