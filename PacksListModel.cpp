@@ -31,3 +31,15 @@ void PacksListModel::insertPack(int packId, const QString& title, const QDateTim
 	this->packs.push_back({ packId, title, createdAt });
 	endInsertRows();
 }
+
+void PacksListModel::deletePack(int packId) {
+	int packInd = 0;
+	for (int i = 0; i < packs.size(); i++)
+		if (packs[i].id == packId) packInd = i;
+
+	qDebug() << packId << packInd;
+
+	beginRemoveRows(QModelIndex(), packInd, packInd);
+	packs.erase(packs.begin() + packInd);
+	endRemoveRows();
+}

@@ -24,4 +24,5 @@ private:
 signals:
 	void packSelected(int packId);
 	void newWordReceived(int packId, const QString& english);
+	void delPackRequested(int packId);
 };

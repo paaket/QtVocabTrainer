@@ -32,6 +32,14 @@ PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : 
 			dialog->exec();
 		}
 	);
+	connect(delegate, &PackItemDelegate::delPackRequested, this, [&dbManager, this](int packId) {
+		auto questionRes = QMessageBox::question(this, "Removing a pack", "Are you sure you want to delete the selected pack?\nThis action cannot be undone.\nAll words associated with the pack will also be deleted.");
+		if (questionRes == QMessageBox::Yes) {
+			auto dbRes = dbManager.deletePack(packId);
+			if (!dbRes.isSuccess) QMessageBox::critical(this, "Critical error", dbRes.error);
+			else listModel->deletePack(packId);
+		}
+	});
 	connect(addPackBtn, &QPushButton::clicked, this, [dbManager, this]() {
 		AddPackDialog* dialog = new AddPackDialog(this);
 		connect(dialog, &AddPackDialog::packSubmitted, this, &PacksListWidget::receiveNewPack);

@@ -17,6 +17,7 @@ public:
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	void setPacks(QVector<WordPack> packs);
 	void insertPack(int packId, const QString& title, const QDateTime& createdAt);
+	void deletePack(int packId);
 private:
 	QVector<WordPack> packs;
 };
