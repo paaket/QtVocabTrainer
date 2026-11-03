@@ -7,17 +7,24 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 	WordsWidget* words = new WordsWidget(db, this);
 	ProfileWidget* profile = new ProfileWidget(this);
 	SettingsWidget* settings = new SettingsWidget(this);
+	ReviewWidget* review = new ReviewWidget(this);
+	EmptyWidget* emptyWidget = new EmptyWidget(this);
 
-	QStackedWidget* pages = new QStackedWidget(this);
-	pages->addWidget(home);
-	pages->addWidget(packs);
-	pages->addWidget(profile);
-	pages->addWidget(settings);
+	QStackedWidget* menuPages = new QStackedWidget(this);
+	menuPages->addWidget(home);
+	menuPages->addWidget(packs);
+	menuPages->addWidget(profile);
+	menuPages->addWidget(settings);
+
+	QStackedWidget* wordsPages = new QStackedWidget(this);
+	wordsPages->addWidget(emptyWidget);
+	wordsPages->addWidget(words);
+	wordsPages->addWidget(review);
 
 	QSplitter* splitter = new QSplitter(Qt::Horizontal, this);
 	splitter->addWidget(navigation);
-	splitter->addWidget(pages);
-	splitter->addWidget(words);
+	splitter->addWidget(menuPages);
+	splitter->addWidget(wordsPages);
 
 	splitter->setStretchFactor(0, 0);
 	splitter->setStretchFactor(1, 1);
@@ -25,13 +32,14 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 
 	setCentralWidget(splitter);
 
-	connect(navigation, &NavigationWidget::homeRequested, [pages, home]() {pages->setCurrentWidget(home); });
-	connect(navigation, &NavigationWidget::packsRequested, [pages, packs]() {pages->setCurrentWidget(packs); });
-	connect(navigation, &NavigationWidget::profileRequested, [pages, profile]() {pages->setCurrentWidget(profile); });
-	//connect(navigation, &NavigationWidget::statisticRequested, [pages, ]() {pages->setCurrentWidget(); });
-	connect(navigation, &NavigationWidget::settingsRequested, [pages, settings]() {pages->setCurrentWidget(settings); });
+	connect(navigation, &NavigationWidget::homeRequested, [menuPages, home]() {menuPages->setCurrentWidget(home); });
+	connect(navigation, &NavigationWidget::packsRequested, [menuPages, packs]() {menuPages->setCurrentWidget(packs); });
+	connect(navigation, &NavigationWidget::profileRequested, [menuPages, profile]() {menuPages->setCurrentWidget(profile); });
+	//connect(navigation, &NavigationWidget::statisticRequested, [menuPages, ]() {menuPages->setCurrentWidget(); });
+	connect(navigation, &NavigationWidget::settingsRequested, [menuPages, settings]() {menuPages->setCurrentWidget(settings); });
 
 	connect(packs, &PacksListWidget::packSelected, words, &WordsWidget::setPackId);
+	connect(packs, &PacksListWidget::packSelected, [wordsPages, words]() {wordsPages->setCurrentWidget(words); });
 	connect(packs, &PacksListWidget::newWordReceived, words, &WordsWidget::receiveNewWord);
 
 	connect(profile, &ProfileWidget::LogoutRequested, this, [this]() {
@@ -54,6 +62,10 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 		settings.remove("user/created_at");
 
 		this->close();
+	});
+	connect(words, &WordsWidget::startReviewClicked, this, [wordsPages, review, words]() { 
+		review->startReview(words->getWords());
+		wordsPages->setCurrentWidget(review); 
 	});
 
 	resize(800, 400);

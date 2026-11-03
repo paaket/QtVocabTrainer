@@ -85,8 +85,11 @@
   <ItemGroup>
     <ClCompile Include="AddPackDialog.cpp" />
     <ClCompile Include="AddWordDialog.cpp" />
+    <ClCompile Include="CircleWidget.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="DeleteAccountDialog.cpp" />
+    <ClCompile Include="EmptyWidget.cpp" />
+    <ClCompile Include="FourButtonsWidget.cpp" />
     <ClCompile Include="HomeWidget.cpp" />
     <ClCompile Include="LoginWindow.cpp" />
     <ClCompile Include="MainWindow.cpp" />
@@ -96,7 +99,10 @@
     <ClCompile Include="PacksListWidget.cpp" />
     <ClCompile Include="ProfileWidget.cpp" />
     <ClCompile Include="RegistrationWindow.cpp" />
+    <ClCompile Include="ReviewSession.cpp" />
+    <ClCompile Include="ReviewWidget.cpp" />
     <ClCompile Include="SettingsWidget.cpp" />
+    <ClCompile Include="WordEntryWidget.cpp" />
     <ClCompile Include="WordItemDelegate.cpp" />
     <ClCompile Include="WordsListModel.cpp" />
     <ClCompile Include="WordsWidget.cpp" />
@@ -107,9 +113,12 @@
   <ItemGroup>
     <QtMoc Include="AddWordDialog.h" />
     <QtMoc Include="AddPackDialog.h" />
+    <ClInclude Include="CircleWidget.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="DatabaseManager.h" />
     <QtMoc Include="DeleteAccountDialog.h" />
+    <ClInclude Include="EmptyWidget.h" />
+    <QtMoc Include="FourButtonsWidget.h" />
     <ClInclude Include="HomeWidget.h" />
     <ClInclude Include="LoginWindow.h" />
     <QtMoc Include="MainWindow.h" />
@@ -118,11 +127,16 @@
     <ClInclude Include="RegistrationWindow.h" />
     <ClInclude Include="Result.h" />
     <QtMoc Include="SettingsWidget.h" />
+    <QtMoc Include="ReviewWidget.h" />
+    <ClInclude Include="ReviewQuestion.h" />
+    <ClInclude Include="ReviewResult.h" />
+    <ClInclude Include="ReviewSession.h" />
     <ClInclude Include="Word.h" />
     <QtMoc Include="WordItemDelegate.h" />
+    <QtMoc Include="WordEntryWidget.h" />
     <ClInclude Include="WordPack.h" />
     <QtMoc Include="WordsListModel.h" />
-    <ClInclude Include="WordsWidget.h" />
+    <QtMoc Include="WordsWidget.h" />
     <QtMoc Include="NavigationWidget.h" />
     <ClInclude Include="PacksListModel.h" />
     <QtMoc Include="PacksListWidget.h" />

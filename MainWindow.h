@@ -6,6 +6,9 @@
 #include "DatabaseManager.h"
 #include "ProfileWidget.h"
 #include "SettingsWidget.h"
+#include "EmptyWidget.h"
+#include "ReviewWidget.h"
+#include "Word.h"
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QListView>
