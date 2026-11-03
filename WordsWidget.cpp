@@ -7,8 +7,31 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 	listView->setModel(wordModel);
 	listView->setItemDelegate(delegate);
 
+	QFont numFont;
+	numFont.setPointSize(20);
+
+	wordsNumLbl = new QLabel("None", this);
+	QLabel* wordTextLbl = new QLabel("total words", this);
+	wordsNumLbl->setFont(numFont);
+
+	QGridLayout* grid = new QGridLayout();
+	grid->addWidget(wordsNumLbl, 0, 0);
+	grid->addWidget(wordTextLbl, 1, 0, Qt::AlignTop | Qt::AlignLeft);
+
+	QPushButton* startBtn = new QPushButton("Start review", this);
+	startBtn->setMinimumHeight(40);
+
+	QFrame* panel = new QFrame(this);
+	panel->setFrameShape(QFrame::StyledPanel);
+	panel->setFrameShadow(QFrame::Sunken);
+
+	QVBoxLayout* panelVbox = new QVBoxLayout(panel);
+	panelVbox->addLayout(grid);
+	panelVbox->addWidget(startBtn);
+	panelVbox->addWidget(listView);
+
 	QVBoxLayout* vbox = new QVBoxLayout(this);
-	vbox->addWidget(listView);
+	vbox->addWidget(panel);
 
 	QSettings settings("paket", "QtVocabTrainer");
 	auto res = dbManager.loadUserWords(settings.value("user/id").toInt());
@@ -23,10 +46,15 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 			else wordModel->deleteWord(wordId);
 		}
 	});
+	connect(startBtn, &QPushButton::clicked, this, [this]() {
+		emit startReviewClicked();
+	});
 }
 
 void WordsWidget::setPackId(int packId) {
 	wordModel->setPackId(packId);
+	int wordsNum = wordModel->getVisibleWordsCount();
+	wordsNumLbl->setText(QString::number(wordsNum));
 }
 
 void WordsWidget::receiveNewWord(int packId, const QString& english) {
@@ -40,4 +68,8 @@ void WordsWidget::receiveNewWord(int packId, const QString& english) {
 	};
 	if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
 	else wordModel->insertWord(word);
+}
+
+QVector<Word> WordsWidget::getWords() {
+	return wordModel->getCurrWords();
 }

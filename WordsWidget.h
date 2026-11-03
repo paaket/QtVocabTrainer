@@ -8,14 +8,23 @@
 #include <QVBoxLayout>
 #include <QSettings>
 #include <QMessageBox>
+#include <QLabel>
+#include <QGridLayout>
+#include <QPushButton>
+#include <QFont>
 
 class WordsWidget : public QWidget {
+	Q_OBJECT
 public:
 	WordsWidget(DatabaseManager& dbManager, QWidget* parent = nullptr);
+	QVector<Word> getWords();
 private:
+	QLabel* wordsNumLbl;
 	WordsListModel* wordModel;
 	DatabaseManager& dbManager;
 public slots:
 	void setPackId(int packId);
 	void receiveNewWord(int packId, const QString& english);
+signals:
+	void startReviewClicked();
 };
