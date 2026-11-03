@@ -20,6 +20,8 @@ public:
 	void setPackId(int packId);
 	void setWords(QVector<Word> words);
 	void deleteWord(int wordId);
+	int getVisibleWordsCount();
+	QVector<Word> getCurrWords();
 private:
 	QVector<Word> allWords;
 	QVector<Word> visibleWords;

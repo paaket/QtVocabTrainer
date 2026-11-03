@@ -65,3 +65,11 @@ void WordsListModel::deleteWord(int wordId) {
 		if (allWords[i].id == wordId) wordAllInd = i;
 	allWords.erase(allWords.begin() + wordAllInd);
 }
+
+int WordsListModel::getVisibleWordsCount() {
+	return visibleWords.size();
+}
+
+QVector<Word> WordsListModel::getCurrWords() {
+	return visibleWords;
+}
