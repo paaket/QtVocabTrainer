@@ -3,6 +3,8 @@
 #include "Result.h"
 #include "Word.h"
 #include "WordPack.h"
+#include "ReviewStatistics.h"
+#include "WordRecomendationData.h"
 #include <QVector>
 #include <QSqlDatabase>
 #include <QSqlQUery>
@@ -17,6 +19,8 @@ public:
 	Result createUsersTable();
 	Result createPacksTable();
 	Result createWordsTable();
+	Result createReviewSessionsTable();
+	Result createReviewHistoryTable();
 	Result insertTestData();
 	Result loadUserPacks(int userId);
 	Result loadUserWords(int userId);
@@ -27,6 +31,8 @@ public:
 	Result deleteAccount(int userId);
 	Result deletePack(int packId);
 	Result deleteWord(int wordId);
+	Result saveReviewSession(const ReviewStatistics& statistics);
+	QVector<WordRecomendationData> loadRecommendData(int packId);
 private:
 	QSqlDatabase db;
 	Config config;

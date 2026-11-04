@@ -36,6 +36,20 @@ Result DatabaseManager::createWordsTable() {
     return Result{ 1, "" };
 }
 
+Result DatabaseManager::createReviewSessionsTable() {
+	QSqlQuery query;
+	if (!query.exec("CREATE TABLE IF NOT EXISTS review_sessions (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, pack_id INTEGER REFERENCES packs(id) ON DELETE SET NULL, started_at TIMESTAMPTZ NOT NULL, finished_at TIMESTAMPTZ NOT NULL, total_questions INTEGER NOT NULL CHECK (total_questions > 0), correct_answers INTEGER NOT NULL CHECK (correct_answers >= 0 AND correct_answers <= total_questions), duration_ms BIGINT NOT NULL CHECK (duration_ms > 0));"))
+		return Result{ 0, query.lastError().text() };
+	return Result{ 1, "" };
+}
+
+Result DatabaseManager::createReviewHistoryTable() {
+	QSqlQuery query;
+	if (!query.exec("CREATE TABLE IF NOT EXISTS review_history (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, session_id BIGINT NOT NULL REFERENCES review_sessions(id) ON DELETE CASCADE, word_id INTEGER REFERENCES words(id) ON DELETE SET NULL, english_snapshot TEXT NOT NULL, user_answer TEXT NOT NULL, is_correct BOOLEAN NOT NULL, response_time_ms BIGINT NOT NULL CHECK (response_time_ms > 0), answered_at TIMESTAMPTZ NOT NULL);"))
+		return Result{ 0, query.lastError().text() };
+	return Result{ 1, "" };
+}
+
 Result DatabaseManager::insertTestData() {
 	QSqlQuery query;
 
@@ -196,4 +210,68 @@ Result DatabaseManager::deleteWord(int wordId) {
 	query.bindValue(":id", wordId);
 	if (!query.exec()) return Result{ 0, query.lastError().text() };
 	return Result{ 1, "" };
+}
+
+Result DatabaseManager::saveReviewSession(const ReviewStatistics& statistics) {
+	db.transaction();
+
+	QSqlQuery sessionQuery;
+	sessionQuery.prepare("INSERT INTO review_sessions(pack_id, started_at, finished_at, total_questions, correct_answers, duration_ms) VALUES (:pack_id, :started_at, :fineshed_at, :total_questions, :correct_answers, :duration_ms) RETURNING id");
+	sessionQuery.bindValue(":pack_id", statistics.questions[0].word.packId);
+	sessionQuery.bindValue(":started_at", statistics.startedAt);
+	sessionQuery.bindValue(":fineshed_at", statistics.finishedAt);
+	sessionQuery.bindValue(":total_questions", statistics.questions.size());
+	sessionQuery.bindValue(":correct_answers", statistics.correctAnswers);
+	sessionQuery.bindValue(":duration_ms", statistics.durationMs);
+	if (!sessionQuery.exec()) {
+		db.rollback();
+		return Result{ 0, sessionQuery.lastError().text() };
+	}
+	sessionQuery.next();
+	int sessionId = sessionQuery.value(0).toInt();
+
+	QSqlQuery historyQuery;
+	historyQuery.prepare("INSERT INTO review_history(session_id, word_id, english_snapshot, user_answer, is_correct, response_time_ms, answered_at) VALUES (:session_id, :word_id, :english_snapshot, :user_answer, :is_correct, :response_time_ms, :answered_at)");
+	for (const ReviewResult& result : statistics.results) {
+		historyQuery.bindValue(":session_id", sessionId);
+		historyQuery.bindValue(":word_id", result.word.id);
+		historyQuery.bindValue(":english_snapshot", result.word.english);
+		historyQuery.bindValue(":user_answer", result.answer);
+		historyQuery.bindValue(":is_correct", result.isCorrect);
+		historyQuery.bindValue(":response_time_ms", result.time);
+		historyQuery.bindValue(":answered_at", result.answeredAt);
+
+		if (!historyQuery.exec()) {
+			db.rollback();
+			return Result{ 0, historyQuery.lastError().text() };
+		}
+	}
+
+	db.commit();
+	return Result{ 1, "" };
+}
+
+QVector<WordRecomendationData> DatabaseManager::loadRecommendData(int packId) {
+	QSqlQuery query;
+	query.prepare("SELECT w.id, w.english, w.translation, w.created_at, COUNT(rh.id) AS attempts, COUNT(rh.id) FILTER (WHERE rh.is_correct = FALSE) AS errors FROM words AS w LEFT JOIN review_history AS rh ON rh.word_id = w.id WHERE w.pack_id = :pack_id GROUP BY w.id, w.english, w.translation;");
+	query.bindValue(":pack_id", packId);
+	if (!query.exec())
+		return QVector<WordRecomendationData>{};
+
+	QVector<WordRecomendationData> data;
+	while (query.next()) {
+		data.append({
+			{
+				query.value(0).toInt(),
+				packId,
+				query.value(1).toString(),
+				query.value(2).toString(),
+				query.value(3).toDateTime()
+			},
+			query.value(4).toInt(),
+			query.value(5).toInt()
+		});
+	}
+
+	return data;
 }
