@@ -1,14 +1,16 @@
 #include "ReviewWidget.h"
 
-ReviewWidget::ReviewWidget(QWidget* parent) : QWidget(parent) {
-	QLabel* titleLbl = new QLabel("Repetition of words", this);
+ReviewWidget::ReviewWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(parent), dbManager(dbManager) {
+	titleLbl = new QLabel("Repetition of words", this);
 	roundLbl = new QLabel("Round 1/10", this);
 
 	circleWidget = new CircleWidget(this);
 	wordEntry = new WordEntryWidget(this);
+	reviewResWidget = new ReviewResultWidget(this);
 
-	QStackedWidget* stackedWidget = new QStackedWidget();
+	stackedWidget = new QStackedWidget();
 	stackedWidget->addWidget(wordEntry);
+	stackedWidget->addWidget(reviewResWidget);
 
 	QGridLayout* grid = new QGridLayout();
 	grid->addWidget(titleLbl, 0, 0, Qt::AlignLeft);
@@ -30,6 +32,11 @@ ReviewWidget::ReviewWidget(QWidget* parent) : QWidget(parent) {
 	mainVbox->addWidget(frame);
 
 	connect(wordEntry, &WordEntryWidget::answerSubmitted, this, &ReviewWidget::checkAnswer);
+	connect(reviewResWidget, &ReviewResultWidget::retutnClicked, this, [this]() {
+		emit returnRequested();
+		stackedWidget->setCurrentWidget(wordEntry);
+		circleWidget->resetCirclies();
+	});
 }
 
 void ReviewWidget::startReview(const QVector<Word>& words) {
@@ -38,25 +45,28 @@ void ReviewWidget::startReview(const QVector<Word>& words) {
 
 	ReviewQuestion question = session->getReviewQuestion();
 	wordEntry->setWord(question.word);
+	session->start();
 }
 
 void ReviewWidget::checkAnswer(const QString& answer) {
 	ReviewResult result = session->submitAnswer(answer);
 
-	if (result.isCorrect) {
-		//show yspeh
-		circleWidget->colorCircle(session->getCurrentInd(), Qt::green);
-	}
-	else {
-		circleWidget->colorCircle(session->getCurrentInd(), Qt::red);
-		//show translation, transcription, ...
-	}
+	if (result.isCorrect) circleWidget->colorCircle(session->getCurrentInd(), Qt::green);
+	else circleWidget->colorCircle(session->getCurrentInd(), Qt::red);
 	showNextQuestion();
 }
 
 void ReviewWidget::showNextQuestion() {
 	if (session->isFinished()) {
-		//show session result
+		session->finish();
+		titleLbl->setText("Repetition complete!");
+		roundLbl->setText("");
+		reviewResWidget->setStatistics(session->getStatistics());
+		stackedWidget->setCurrentWidget(reviewResWidget);
+
+		auto res = dbManager.saveReviewSession(session->getStatistics());
+		if (!res.isSuccess) QMessageBox::critical(this, "Critical error", res.error);
+
 		return;
 	}
 	ReviewQuestion question = session->getReviewQuestion();
