@@ -42,6 +42,18 @@ int main(int argc, char *argv[]) {
         
     }*/
 
+    /*res = dbManager.createReviewSessionsTable();
+    if (!res.isSuccess) {
+        qDebug() << "review session table error: " << res.error;
+        return 1;
+    }
+
+    res = dbManager.createReviewHistoryTable();
+    if (!res.isSuccess) {
+        qDebug() << "review history table error: " << res.error;
+        return 1;
+    }*/
+
     QSettings settings("paket", "QtVocabTrainer");
     bool login = settings.value("auth/remember", false).toBool();
     if (!login) {
