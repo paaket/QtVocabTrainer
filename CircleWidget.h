@@ -6,6 +6,7 @@ class CircleWidget : public QWidget {
 public: 
 	CircleWidget(QWidget* parent = nullptr);
 	void colorCircle(int circleInd, QColor color);
+	void resetCirclies();
 protected:
 	void paintEvent(QPaintEvent* event) override;
 private:

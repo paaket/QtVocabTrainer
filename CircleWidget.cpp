@@ -31,3 +31,8 @@ void CircleWidget::colorCircle(int circleInd, QColor color) {
 	circlies[circleInd] = color;
 	update();
 }
+
+void CircleWidget::resetCirclies() {
+	for (int i = 0; i < 10; ++i)
+		circlies[i] = Qt::lightGray;
+}
