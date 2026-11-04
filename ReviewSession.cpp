@@ -22,10 +22,15 @@ ReviewResult ReviewSession::submitAnswer(const QString& answer) {
 	const Word& word = questions[currInd].word;
 	const bool isCorrect = answer.compare(word.translation, Qt::CaseInsensitive) == 0 ? true : false;
 
+	qint64 answerTime = elapsedTime() - lastQuestionTime;
+	QDateTime answeredAt = QDateTime::currentDateTime();
+	lastQuestionTime = answerTime;
 	ReviewResult result{
-		word.id,
+		word,
 		answer,
-		isCorrect
+		isCorrect,
+		answerTime,
+		answeredAt
 	};
 	results.push_back(result);
 	if (!isCorrect) mistakes.push_back(questions[currInd]);
@@ -35,4 +40,34 @@ ReviewResult ReviewSession::submitAnswer(const QString& answer) {
 
 int ReviewSession::getCurrentInd() {
 	return currInd;
+}
+
+void ReviewSession::start() {
+	totalTime = 0;
+	startedAt = QDateTime::currentDateTime();
+	timer.start();
+}
+
+void ReviewSession::finish() {
+	if (timer.isValid()) {
+		finishedAt = QDateTime::currentDateTime();
+		totalTime = timer.elapsed();
+		timer.invalidate();
+	}
+}
+
+qint64 ReviewSession::elapsedTime() {
+	return timer.isValid() ? timer.elapsed() : totalTime;
+}
+
+ReviewStatistics ReviewSession::getStatistics() {
+	return {
+		questions,
+		startedAt,
+		finishedAt,
+		totalTime,
+		mistakes,
+		results,
+		static_cast<int>(questions.size() - mistakes.size())
+	};
 }
