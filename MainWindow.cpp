@@ -7,7 +7,7 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 	WordsWidget* words = new WordsWidget(db, this);
 	ProfileWidget* profile = new ProfileWidget(this);
 	SettingsWidget* settings = new SettingsWidget(this);
-	ReviewWidget* review = new ReviewWidget(this);
+	ReviewWidget* review = new ReviewWidget(db, this);
 	EmptyWidget* emptyWidget = new EmptyWidget(this);
 
 	QStackedWidget* menuPages = new QStackedWidget(this);
@@ -67,6 +67,7 @@ MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWind
 		review->startReview(words->getWords());
 		wordsPages->setCurrentWidget(review); 
 	});
+	connect(review, &ReviewWidget::returnRequested, this, [wordsPages, words]() { wordsPages->setCurrentWidget(words); });
 
 	resize(800, 400);
 }

@@ -103,6 +103,12 @@
     <ClCompile Include="WordEntryWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReviewResultWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecommendationService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacksListModel.h">
@@ -145,6 +151,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReviewResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReviewStatistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordRecomendationData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecommendationService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,6 +207,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="WordEntryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ReviewResultWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

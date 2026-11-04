@@ -98,7 +98,9 @@
     <ClCompile Include="PacksListModel.cpp" />
     <ClCompile Include="PacksListWidget.cpp" />
     <ClCompile Include="ProfileWidget.cpp" />
+    <ClCompile Include="RecommendationService.cpp" />
     <ClCompile Include="RegistrationWindow.cpp" />
+    <ClCompile Include="ReviewResultWidget.cpp" />
     <ClCompile Include="ReviewSession.cpp" />
     <ClCompile Include="ReviewWidget.cpp" />
     <ClCompile Include="SettingsWidget.cpp" />
@@ -111,6 +113,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RecommendationService.h" />
+    <ClInclude Include="WordRecomendationData.h" />
     <QtMoc Include="AddWordDialog.h" />
     <QtMoc Include="AddPackDialog.h" />
     <ClInclude Include="CircleWidget.h" />
@@ -130,7 +134,9 @@
     <QtMoc Include="ReviewWidget.h" />
     <ClInclude Include="ReviewQuestion.h" />
     <ClInclude Include="ReviewResult.h" />
+    <QtMoc Include="ReviewResultWidget.h" />
     <ClInclude Include="ReviewSession.h" />
+    <ClInclude Include="ReviewStatistics.h" />
     <ClInclude Include="Word.h" />
     <QtMoc Include="WordItemDelegate.h" />
     <QtMoc Include="WordEntryWidget.h" />
