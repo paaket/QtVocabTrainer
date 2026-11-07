@@ -253,7 +253,7 @@ Result DatabaseManager::saveReviewSession(const ReviewStatistics& statistics) {
 
 QVector<WordRecomendationData> DatabaseManager::loadRecommendData(int packId) {
 	QSqlQuery query;
-	query.prepare("SELECT w.id, w.english, w.translation, w.created_at, COUNT(rh.id) AS attempts, COUNT(rh.id) FILTER (WHERE rh.is_correct = FALSE) AS errors FROM words AS w LEFT JOIN review_history AS rh ON rh.word_id = w.id WHERE w.pack_id = :pack_id GROUP BY w.id, w.english, w.translation;");
+	query.prepare("SELECT w.id, w.english, w.translation, w.created_at, COUNT(rh.id) AS attempts, COUNT(rh.id) FILTER (WHERE rh.is_correct = FALSE) AS errors, MAX (rh.answered_at) AS last_reviewed_at FROM words AS w LEFT JOIN review_history AS rh ON rh.word_id = w.id WHERE w.pack_id = :pack_id GROUP BY w.id, w.english, w.translation;");
 	query.bindValue(":pack_id", packId);
 	if (!query.exec())
 		return QVector<WordRecomendationData>{};
@@ -269,7 +269,8 @@ QVector<WordRecomendationData> DatabaseManager::loadRecommendData(int packId) {
 				query.value(3).toDateTime()
 			},
 			query.value(4).toInt(),
-			query.value(5).toInt()
+			query.value(5).toInt(),
+			query.value(6).toDateTime()
 		});
 	}
 
