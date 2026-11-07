@@ -14,9 +14,14 @@ WordsWidget::WordsWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(
 	QLabel* wordTextLbl = new QLabel("total words", this);
 	wordsNumLbl->setFont(numFont);
 
+	QFrame* hLine = new QFrame(this);
+	hLine->setFrameShape(QFrame::HLine);
+	hLine->setFrameShadow(QFrame::Sunken);
+
 	QGridLayout* grid = new QGridLayout();
 	grid->addWidget(wordsNumLbl, 0, 0);
 	grid->addWidget(wordTextLbl, 1, 0, Qt::AlignTop | Qt::AlignLeft);
+	grid->addWidget(hLine, 2, 0, 1, 2);
 
 	QPushButton* startBtn = new QPushButton("Start review", this);
 	startBtn->setMinimumHeight(40);

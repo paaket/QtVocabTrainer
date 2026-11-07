@@ -8,10 +8,17 @@ PacksListWidget::PacksListWidget(DatabaseManager& dbManager, QWidget* parent) : 
 	listView->setItemDelegate(delegate);
 
 	QPushButton* addPackBtn = new QPushButton("Add pack", this);
+
+	QFrame* frame = new QFrame(this);
+	frame->setFrameShape(QFrame::StyledPanel);
+	frame->setFrameShadow(QFrame::Sunken);
+
+	QVBoxLayout* frameVbox = new QVBoxLayout(frame);
+	frameVbox->addWidget(listView);
+	frameVbox->addWidget(addPackBtn);
 	
-	QVBoxLayout* vbox = new QVBoxLayout(this);
-	vbox->addWidget(listView);
-	vbox->addWidget(addPackBtn);
+	QVBoxLayout* mainVbox = new QVBoxLayout(this);
+	mainVbox->addWidget(frame);
 
 	QSettings settings("paket", "QtVocabTrainer");
 	auto res = dbManager.loadUserPacks(settings.value("user/id").toInt());

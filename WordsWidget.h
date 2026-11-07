@@ -12,6 +12,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QFont>
+#include <QFrame>
 
 class WordsWidget : public QWidget {
 	Q_OBJECT

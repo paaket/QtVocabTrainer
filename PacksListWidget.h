@@ -12,6 +12,7 @@
 #include <QSettings>
 #include <QSettings>
 #include <QMessageBox>
+#include <QFrame>
 
 class PacksListWidget : public QWidget {
 	Q_OBJECT
