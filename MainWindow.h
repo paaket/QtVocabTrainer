@@ -9,6 +9,7 @@
 #include "EmptyWidget.h"
 #include "ReviewWidget.h"
 #include "Word.h"
+#include "RecommendationService.h"
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QListView>
@@ -18,7 +19,8 @@
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 public:
-	MainWindow(DatabaseManager& db, QWidget* parent = nullptr);
+	MainWindow(DatabaseManager& db, RecommendationService& recService, QWidget* parent = nullptr);
 private:
 	DatabaseManager& db;
+	RecommendationService& recService;
 };

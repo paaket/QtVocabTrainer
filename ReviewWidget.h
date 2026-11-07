@@ -7,6 +7,8 @@
 #include "ReviewQuestion.h"
 #include "ReviewResultWidget.h"
 #include "DatabaseManager.h"
+#include "RecommendationService.h"
+#include "WordRecomendationData.h"
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -20,7 +22,7 @@
 class ReviewWidget : public QWidget {
 	Q_OBJECT
 public:
-	ReviewWidget(DatabaseManager& dbManager, QWidget* parent = nullptr);
+	ReviewWidget(DatabaseManager& dbManager, RecommendationService& recService, QWidget* parent = nullptr);
 	void startReview(const QVector<Word>& words);
 	void showNextQuestion();
 private:
@@ -32,6 +34,7 @@ private:
 	QStackedWidget* stackedWidget;
 	ReviewSession* session = nullptr;
 	DatabaseManager& dbManager;
+	RecommendationService& recService;
 signals:
 	void returnRequested();
 public slots:

@@ -1,13 +1,13 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow(DatabaseManager& db, QWidget* parent) : db(db), QMainWindow(parent) {
+MainWindow::MainWindow(DatabaseManager& db, RecommendationService& recService, QWidget* parent) : db(db), recService(recService), QMainWindow(parent) {
 	NavigationWidget* navigation = new NavigationWidget(this);
 	PacksListWidget* packs = new PacksListWidget(db, this);
 	HomeWidget* home = new HomeWidget(this);
 	WordsWidget* words = new WordsWidget(db, this);
 	ProfileWidget* profile = new ProfileWidget(this);
 	SettingsWidget* settings = new SettingsWidget(this);
-	ReviewWidget* review = new ReviewWidget(db, this);
+	ReviewWidget* review = new ReviewWidget(db, recService, this);
 	EmptyWidget* emptyWidget = new EmptyWidget(this);
 
 	QStackedWidget* menuPages = new QStackedWidget(this);

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "DatabaseManager.h"
 #include "LoginWindow.h"
+#include "RecommendationService.h"
 #include <QApplication>
 #include <QSettings>
 #include <QDebug>
@@ -14,6 +15,8 @@ int main(int argc, char *argv[]) {
         qDebug() << "db error: " << res.error;
         return 1;
     }
+
+    RecommendationService recService;
 
     /*res = dbManager.createUsersTable();
     if (!res.isSuccess) {
@@ -61,7 +64,7 @@ int main(int argc, char *argv[]) {
         if (loginWindow.exec() == QDialog::Accepted) login = true;
     }
     if (login) {
-        MainWindow window(dbManager);
+        MainWindow window(dbManager, recService);
         window.show();
         return app.exec();
     }

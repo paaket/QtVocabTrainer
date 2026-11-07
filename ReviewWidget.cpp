@@ -1,6 +1,6 @@
 #include "ReviewWidget.h"
 
-ReviewWidget::ReviewWidget(DatabaseManager& dbManager, QWidget* parent) : QWidget(parent), dbManager(dbManager) {
+ReviewWidget::ReviewWidget(DatabaseManager& dbManager, RecommendationService& recService, QWidget* parent) : QWidget(parent), dbManager(dbManager), recService(recService) {
 	titleLbl = new QLabel("Repetition of words", this);
 	roundLbl = new QLabel("Round 1/10", this);
 
@@ -40,11 +40,19 @@ ReviewWidget::ReviewWidget(DatabaseManager& dbManager, QWidget* parent) : QWidge
 }
 
 void ReviewWidget::startReview(const QVector<Word>& words) {
+	QVector<WordRecomendationData> data = dbManager.loadRecommendData(words[0].packId);
+	for (const auto& el : data) qDebug() << "att: " << el.attempts << "\terr: " << el.errors << "\tword: " << el.word.english << "\tlast: " << el.lastReviewedAt;
+	QVector<Word> recommendWords = recService.recommendWords(data, 10); //words count
+
+	for (const auto& el : recommendWords) qDebug() << el.english;
+
 	delete session;
-	session = new ReviewSession(words);
+	session = new ReviewSession(recommendWords);
+	//session = new ReviewSession(words);
 
 	ReviewQuestion question = session->getReviewQuestion();
 	wordEntry->setWord(question.word);
+	titleLbl->setText("Repetition of words");
 	session->start();
 }
 
