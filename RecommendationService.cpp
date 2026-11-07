@@ -11,6 +11,25 @@ bool RecommendationService::isProblematic(const WordRecomendationData& data) {
 	return errorRate >= errorThreshold;
 }
 
+double RecommendationService::calculateTimeFactor(const QDateTime& lastReviewedAt, const QDateTime& now) {
+    if (!lastReviewedAt.isValid())
+        return 1.0;
+
+    constexpr double maxIncrease = 0.5;
+    constexpr double timeConstantDays = 3.0;
+    qint64 elapsedSeconds = lastReviewedAt.secsTo(now);
+    double elapsedDays = elapsedSeconds / 86400.0;
+    elapsedDays = std::max(0.0, elapsedDays);
+
+    return 1.0 + maxIncrease * (1.0 - std::exp(-elapsedDays / timeConstantDays));
+}
+
+double RecommendationService::calculateFinalPriority(const WordRecomendationData& data, const QDateTime& now) {
+    double basePriority = static_cast<double>(data.errors) * data.errors / data.attempts;
+
+    return basePriority * calculateTimeFactor(data.lastReviewedAt, now);
+}
+
 RecommendationService::CategoryAllocation RecommendationService::allocateSlots(
 	int totalCount,
 	int newAvailable,
@@ -116,9 +135,10 @@ QVector<Word> RecommendationService::recommendWords(const QVector<WordRecomendat
 		}
 	}
 
-	std::sort(problematic.begin(), problematic.end(), [](const WordRecomendationData& first, const WordRecomendationData& second) {
-		double priorityFirst = static_cast<double>(first.errors) * first.errors / first.attempts;
-		double prioritySecond = static_cast<double>(second.errors) * second.errors / second.attempts;
+    QDateTime now = QDateTime::currentDateTime();
+	std::sort(problematic.begin(), problematic.end(), [&now](const WordRecomendationData& first, const WordRecomendationData& second) {
+		double priorityFirst = calculateFinalPriority(first, now);
+        double prioritySecond = calculateFinalPriority(second, now);
 
 		if (priorityFirst != prioritySecond)
 			return priorityFirst > prioritySecond;
@@ -129,21 +149,17 @@ QVector<Word> RecommendationService::recommendWords(const QVector<WordRecomendat
 		if (rateFirst != rateSecond)
 			return rateFirst > rateSecond;
 
-		return first.attempts < second.attempts;
+        if (first.attempts != second.attempts)
+            return first.attempts < second.attempts;
+
+		return first.lastReviewedAt < second.lastReviewedAt;
 	});
 
     std::shuffle(newWords.begin(), newWords.end(), *QRandomGenerator::global());
 
-    std::sort(reviewed.begin(), reviewed.end(), [](const WordRecomendationData& first, const WordRecomendationData& second) {
-        if (first.attempts < second.attempts) {
-            return true;
-        }
-        else if (first.attempts > second.attempts) {
-            return false;
-        }
-        else {
-            return static_cast<bool>(QRandomGenerator::global()->bounded(2));
-        }
+    std::shuffle(reviewed.begin(), reviewed.end(), *QRandomGenerator::global());
+    std::stable_sort(reviewed.begin(), reviewed.end(), [](const WordRecomendationData& first, const WordRecomendationData& second) {
+        return first.lastReviewedAt < second.lastReviewedAt;
     });
 
     CategoryAllocation allocation = allocateSlots(count, newWords.size(), problematic.size(), reviewed.size());

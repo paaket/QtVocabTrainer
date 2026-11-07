@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QRandomGenerator>
 #include <algorithm>
+#include <cmath>
 
 class RecommendationService {
 public:
@@ -21,4 +22,6 @@ public:
 private:
 	static bool isProblematic(const WordRecomendationData& data);
 	static CategoryAllocation allocateSlots(int totalCount, int newAvailable, int problematicAvailable, int reviewedAvailable);
+	static double calculateTimeFactor(const QDateTime& lastReviewedAt);
+	static double calculateFinalPriority(const WordRecomendationData& data);
 };
